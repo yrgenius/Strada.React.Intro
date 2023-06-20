@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import Main from "./Main.jsx";
 import Users from "./Users.jsx";
 import ModalFormRegistration from './ModalFormRegistration.jsx';
 import ModalFormLogin from "./ModalFormLogin.jsx";
 import { MyButton } from "./UI/MyButton/MyButton.jsx";
-import styles from '../styles/App.css';
 import UsersService from "./utils/fetchUsers.js";
+import { getPageArray, getPageCount } from "./utils/pages.js";
+import styles from '../styles/App.css';
 
 
 function App() {
@@ -16,16 +16,28 @@ function App() {
 	const [userName, setUserName] = useState('');
 	const [users, setUsers] = useState([]);
 	const [totalPages, setTotalPages] = useState(0);
-	useEffect(() => { getUsers() }, []);
+	const [currentPage, setCurrentPage] = useState(0);
+	const limitPage = 10;
+	useEffect(() => { getUsers() }, [currentPage]);
+	const pagesArray = getPageArray(totalPages);
 
 	async function getUsers() {
-		const response = await UsersService.getUsers();
+		const response = await UsersService.getUsers(limitPage, currentPage);
 		setUsers(response.data);
-		setTotalPages(response.headers["x-total-count"]);
+		// получаем из хедера кол-во юзеров
+		const totalCount = response.headers["x-total-count"];
+		// делим кол-во юзеров на кол-во юзеров на одной странице, 
+		// получаем количество страниц, сохраняем в стейт
+		setTotalPages(getPageCount(totalCount, limitPage));
 	}
 
 	const handleButton = () => {
 		setShowForm(!showForm);
+	}
+
+	const changePage = (page) => {
+		setCurrentPage(page);
+		console.log(page);
 	}
 
 	return (
@@ -44,6 +56,14 @@ function App() {
 				{isLogin &&
 					<h2 style={{ textAlign: 'center' }}>Приветствуем Вас {userName}</h2>}
 				<Users users={users} />
+				<div className="page__wrapper">
+					{pagesArray.map((page, i) =>
+						<span className={page === currentPage ? 'page page__current' : 'page'}
+							key={page}
+							onClick={() => changePage(page)}>
+							{page}
+						</span>)
+					}</div>
 			</Main>
 		</div>
 	);

@@ -1,3 +1,88 @@
-.wrapper{
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: inherit;
+  outline: transparent;
+}
+
+ul,
+ol {
+  padding: 0;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+li,
+figure,
+figcaption,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  border-style: none;
+}
+
+body {
+  min-height: 100vh;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.wrapper {
   width: 100%;
+}
+
+.page__wrapper {
+  display: flex;
+  gap: 10px;
+  margin: 20px;
+}
+
+.page {
+  padding: 5px 9px;
+  cursor: pointer;
+  border: 1px solid #2E22A3;
+  border-radius: 8px;
+}
+
+.page__current {
+  border: 3px solid #2E22A3;
+  font-weight: bold;
 }

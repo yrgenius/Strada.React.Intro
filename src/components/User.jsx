@@ -1,9 +1,10 @@
 import React from 'react';
 import style from '../styles/User.module.css';
 
-const User = ({ content }) => {
+const User = ({ num, content }) => {
     return (
         <div className={style.wrapper} >
+            <span>{num}.  </span>
             {content}
         </div>
     );
