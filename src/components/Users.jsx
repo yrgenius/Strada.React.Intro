@@ -8,7 +8,7 @@ const Users = ({ users }) => {
             {
                 users.map(user => {
                     return (
-                        <User key={user.id} content={user.title} />
+                        <User key={user.id} num={user.id} content={user.title} />
                     );
                 })
             }

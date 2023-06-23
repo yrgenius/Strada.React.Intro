@@ -16,7 +16,9 @@ function App() {
 	const [userName, setUserName] = useState('');
 	const [users, setUsers] = useState([]);
 	const [totalPages, setTotalPages] = useState(0);
+	const [currentPage, setCurrentPage] = useState(0);
 	const storage = window.localStorage;
+	const pagesArray = [];
 
 	useEffect(() => {
 		let ignore = false;
@@ -44,6 +46,11 @@ function App() {
 		setShowForm(!showForm);
 	}
 
+	const changePage = (page) => {
+		setCurrentPage(page);
+		console.log(page);
+	}
+
 	return (
 		<div className={styles.wrapper}>
 			<Header onClick={handleButton} />
@@ -62,6 +69,14 @@ function App() {
 				{isLogin &&
 					<h2 style={{ textAlign: 'center' }}>Приветствуем Вас {userName}</h2>}
 				<Users users={users} />
+				<div className="page__wrapper">
+					{pagesArray.map((page, i) =>
+						<span className={page === currentPage ? 'page page__current' : 'page'}
+							key={page}
+							onClick={() => changePage(page)}>
+							{page}
+						</span>)
+					}</div>
 			</Main>
 		</div>
 	);
