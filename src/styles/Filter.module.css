@@ -1,0 +1,23 @@
+.filters {
+    width: 300px;
+    padding: 20px 25px;
+    margin: 20px 0 0 20%;
+    border: 1px solid #d1d1d1;
+    border-radius: 3px;
+    box-shadow: 3px 2px 8px #d1d1d1;
+}
+
+.title {
+    font-size: 25px;
+    text-transform: capitalize;
+}
+
+.title+.button {
+    background-color: #24313a;
+    border-radius: 3px;
+    color: #d9eff8;
+    text-transform: capitalize;
+    padding: 3px 8px;
+    margin-top: 15px;
+    font-size: 19px;
+}

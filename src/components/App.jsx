@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import Main from "./Main.jsx";
 import Users from "./Users.jsx";
 import ModalFormRegistration from './ModalFormRegistration.jsx';
 import ModalFormLogin from "./ModalFormLogin.jsx";
-import { MyButton } from "./UI/MyButton/MyButton.jsx";
-import styles from '../styles/App.css';
 import UsersService from "./utils/fetchUsers.js";
+import Header from "./Header.jsx";
+import styles from '../styles/App.css';
+import Filters from "./Filters.jsx";
 
 
 function App() {
@@ -16,12 +16,28 @@ function App() {
 	const [userName, setUserName] = useState('');
 	const [users, setUsers] = useState([]);
 	const [totalPages, setTotalPages] = useState(0);
-	useEffect(() => { getUsers() }, []);
+	const storage = window.localStorage;
 
-	async function getUsers() {
+	useEffect(() => {
+		let ignore = false;
+		getUsers(ignore);
+		setLocalStorage();
+		return () => ignore = true;
+	}, []);
+
+	async function setLocalStorage() {
+		users.map(user => {
+			storage.setItem(user.id, JSON.stringify(user));
+		})
+		console.log(users);
+	}
+
+	async function getUsers(ignore) {
 		const response = await UsersService.getUsers();
-		setUsers(response.data);
-		setTotalPages(response.headers["x-total-count"]);
+		if (!ignore) {
+			setUsers(response.data);
+			setTotalPages(response.headers["x-total-count"]);
+		}
 	}
 
 	const handleButton = () => {
@@ -30,8 +46,10 @@ function App() {
 
 	return (
 		<div className={styles.wrapper}>
+			<Header onClick={handleButton} />
+			<Filters />
 			<Main>
-				<MyButton name={'Sign In'} onClick={handleButton} />
+				{/* <MyButton name={'Sign In'} onClick={handleButton} /> */}
 				{showForm && !isRegistered &&
 					<ModalFormRegistration isRegistered={isRegistered} setIsRegistered={setIsRegistered} />
 				}

@@ -9,6 +9,10 @@
     transition: all 0.2s ease-in;
 }
 
+.modal__input+.modal__input {
+    margin-bottom: 20px;
+}
+
 .modal__input:focus {
     outline: 0;
     border-bottom: 2px solid #2E22A3;
